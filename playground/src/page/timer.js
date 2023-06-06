@@ -9,10 +9,64 @@ function Timer() {
     const [min, setMin] = useState(date.getMinutes());
     const [sec, setSec] = useState(date.getSeconds());
     const [mod, setMod] = useState('Current Time');
+    const [timer, setTimer] = useState({
+        h: '00',
+        m: '00',
+        s: '00'
+    })
 
 
     const back = () => {
         navigate('/');
+    }
+
+    const selectMod = (mod) => {
+        switch (mod) {
+            case 'Current Time':
+                return (
+                    <>
+                        <Box1>
+                            <div>H</div>
+                            <div>M</div>
+                            <div>S</div>
+                        </Box1>
+                        <Box1>
+                            <div>
+                                {hour}
+                            </div>
+                            <div>
+                                {min}
+                            </div>
+                            <div>
+                                {sec}
+                            </div>
+                        </Box1>
+                    </>
+                )
+            case 'Timer':
+                return (
+                    <>
+                        <Box1>
+                            <TimerInput value={timer.h} onChange={(e) => setTimer({...timer, h: e.target.value})}></TimerInput>
+                            <div>:</div>
+                            <TimerInput value={timer.m} onChange={(e) => setTimer({...timer, m: e.target.value})}></TimerInput>
+                            <div>:</div>
+                            <TimerInput value={timer.s} onChange={(e) => setTimer({...timer, s: e.target.value})}></TimerInput>
+                        </Box1>
+                    </>
+                )
+            case 'Stop Watch':
+                return (
+                    <>
+                    <div>stop watch</div>
+                    </>
+                )
+        }
+        return (
+            <div>
+
+            </div>
+        )
     }
 
     useEffect(() => {
@@ -27,40 +81,41 @@ function Timer() {
         if (hour === 24) {
             setHour(0);
         }
-        setTimeout(() => {
-            setSec(sec + 1);
-        }, 1000)
+        if (mod === 'Current Time') {
+            setTimeout(() => {
+                setSec(sec + 1);
+            }, 1000)
+        } else if (mod === 'Timer') {
+            setTimeout(() => {
+                
+            })
+        }
     })
     return (
         <>
-            <h1>{mod}</h1>
+            <Title>{mod}</Title>
             <div>
+                {selectMod(mod)}
                 <Box1>
-                    <div>H</div>
-                    <div>M</div>
-                    <div>S</div>
-                </Box1>
-                <Box1>
-                    <div>
-                        {hour}
-                    </div>
-                    <div>
-                        {min}
-                    </div>
-                    <div>
-                        {sec}
-                    </div>
-                </Box1>
-                <Box1>
-                    <div>current time</div>
-                    <div>timer</div>
-                    <div>stopwatch</div>
+                    <div onClick={() => setMod('Current Time')}>current time</div>
+                    <div onClick={() => setMod('Timer')}>timer</div>
+                    <div onClick={() => setMod('Stop Watch')}>stopwatch</div>
                 </Box1>
             </div>
             <button onClick={back}>back</button>
         </>
     )
 }
+
+const Title = styled.div`
+    width: 400px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    font-weight: bold;
+`
 
 const Box1 = styled.div`
     width: 400px;
@@ -70,6 +125,16 @@ const Box1 = styled.div`
     align-items: center;
     background-color: wheat;
     border: solid black 1px;
+`
+
+const TimerInput = styled.input`
+    all: unset;
+    width: 100px;
+    height: 50px;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    background-color: skyblue;
 `
 
 export default Timer;
