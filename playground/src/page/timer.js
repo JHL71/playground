@@ -14,10 +14,56 @@ function Timer() {
         m: '00',
         s: '00'
     })
+    const [start, setStart] = useState(false);
 
 
     const back = () => {
         navigate('/');
+    }
+
+    const timerH = (value) => {
+        let x = Number(value);
+        if (isNaN(x)) {
+            setTimer({...timer, h: '00'})
+        } else {
+            if (x >= 24) {
+                setTimer({...timer, h: '23'});
+            } else if (x >= 10) {
+                setTimer({...timer, h: String(x)});
+            } else {
+                setTimer({...timer, h: '0'+x});
+            }
+        }
+    }
+
+    const timerM = (value) => {
+        let x = Number(value);
+        if (isNaN(x)) {
+            setTimer({...timer, m: '00'})
+        } else {
+            if (x >= 60) {
+                setTimer({...timer, m: '59'});
+            } else if (x >= 10) {
+                setTimer({...timer, m: String(x)});
+            } else {
+                setTimer({...timer, m: '0'+x});
+            }
+        }
+    }
+
+    const timerS = (value) => {
+        let x = Number(value);
+        if (isNaN(x)) {
+            setTimer({...timer, s: '00'})
+        } else {
+            if (x >= 60) {
+                setTimer({...timer, s: '59'});
+            } else if (x >= 10) {
+                setTimer({...timer, s: String(x)});
+            } else {
+                setTimer({...timer, s: '0'+x});
+            }
+        }
     }
 
     const selectMod = (mod) => {
@@ -47,11 +93,16 @@ function Timer() {
                 return (
                     <>
                         <Box1>
-                            <TimerInput value={timer.h} onChange={(e) => setTimer({...timer, h: e.target.value})}></TimerInput>
+                            <TimerInput value={timer.h} onChange={(e) => timerH(e.target.value)}></TimerInput>
                             <div>:</div>
-                            <TimerInput value={timer.m} onChange={(e) => setTimer({...timer, m: e.target.value})}></TimerInput>
+                            <TimerInput value={timer.m} onChange={(e) => timerM(e.target.value)}></TimerInput>
                             <div>:</div>
-                            <TimerInput value={timer.s} onChange={(e) => setTimer({...timer, s: e.target.value})}></TimerInput>
+                            <TimerInput value={timer.s} onChange={(e) => timerS(e.target.value)}></TimerInput>
+                        </Box1>
+                        <Box1>
+                            <div onClick={() => setStart(true)}>start</div>
+                            <div onClick={() => setStart(false)}>stop</div>
+                            <div>reset</div>
                         </Box1>
                     </>
                 )
@@ -81,31 +132,75 @@ function Timer() {
         if (hour === 24) {
             setHour(0);
         }
-        if (mod === 'Current Time') {
-            setTimeout(() => {
-                setSec(sec + 1);
-            }, 1000)
-        } else if (mod === 'Timer') {
-            setTimeout(() => {
-                
-            })
+        if (timer.s === '00' && start) {
+            let m = Number(timer.m);
+            if (m >= 10) {
+                m--;
+                m = String(m);
+            } else {
+                m--;
+                m = '0' + m;
+            }
+            setTimer({...timer, m: m, s: '59'});
         }
+        if (timer.m === '00' && start) {
+            let h = Number(timer.h);
+            if (h >= 10) {
+                h--;
+                h = String(h);
+            } else {
+                console.log(h);
+                h--;
+                h = '0' + h;
+            }
+            setTimer({...timer, h: h, m: '59'});
+        }
+        setTimeout(() => {
+            setSec(sec + 1);
+            console.log(timer);
+            if (start) {
+                let s = Number(timer.s);
+                if (s >= 10) {
+                    s--;
+                    s = String(s);
+                } else {
+                    s--;
+                    s = '0' + s;
+                }
+                setTimer({...timer, s: s})
+            }
+        }, 1000)
     })
+
+    useEffect(() => {
+
+    }, [])
     return (
         <>
-            <Title>{mod}</Title>
-            <div>
-                {selectMod(mod)}
-                <Box1>
-                    <div onClick={() => setMod('Current Time')}>current time</div>
-                    <div onClick={() => setMod('Timer')}>timer</div>
-                    <div onClick={() => setMod('Stop Watch')}>stopwatch</div>
-                </Box1>
-            </div>
-            <button onClick={back}>back</button>
+            <Wrap>
+                <Title>{mod}</Title>
+                <div>
+                    {selectMod(mod)}
+                    <Box1>
+                        <div onClick={() => setMod('Current Time')}>current time</div>
+                        <div onClick={() => setMod('Timer')}>timer</div>
+                        <div onClick={() => setMod('Stop Watch')}>stopwatch</div>
+                    </Box1>
+                </div>
+                <button onClick={back}>back</button>
+            </Wrap>
         </>
     )
 }
+
+const Wrap = styled.div`
+    width: 100%;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+`
 
 const Title = styled.div`
     width: 400px;
