@@ -2,6 +2,14 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
+const NtS = (num) => {
+    if (num > 9) {
+        return String(num);
+    } else if (num >= 0) {
+        return '0' + num;
+    }
+}
+
 function Timer() {
     const navigate = useNavigate();
     const date = new Date();
@@ -15,7 +23,7 @@ function Timer() {
         s: '00'
     })
     const [start, setStart] = useState(false);
-
+    let id = -1;
 
     const back = () => {
         navigate('/');
@@ -102,7 +110,12 @@ function Timer() {
                         <Box1>
                             <div onClick={() => setStart(true)}>start</div>
                             <div onClick={() => setStart(false)}>stop</div>
-                            <div>reset</div>
+                            <div onClick={() => {
+                                clearTimeout(id);
+                                clearTimeout(id - 2);
+                                setTimer({h: '00', m: '00', s: '00'})
+                                setStart(false);
+                            }}>reset</div>
                         </Box1>
                     </>
                 )
@@ -132,44 +145,37 @@ function Timer() {
         if (hour === 24) {
             setHour(0);
         }
-        if (timer.s === '00' && start) {
-            let m = Number(timer.m);
-            if (m >= 10) {
-                m--;
-                m = String(m);
-            } else {
-                m--;
-                m = '0' + m;
-            }
-            setTimer({...timer, m: m, s: '59'});
-        }
-        if (timer.m === '00' && start) {
-            let h = Number(timer.h);
-            if (h >= 10) {
-                h--;
-                h = String(h);
-            } else {
-                console.log(h);
-                h--;
-                h = '0' + h;
-            }
-            setTimer({...timer, h: h, m: '59'});
-        }
         setTimeout(() => {
             setSec(sec + 1);
-            console.log(timer);
-            if (start) {
-                let s = Number(timer.s);
-                if (s >= 10) {
-                    s--;
-                    s = String(s);
-                } else {
-                    s--;
-                    s = '0' + s;
-                }
-                setTimer({...timer, s: s})
-            }
         }, 1000)
+        if (start) {
+            id = setTimeout(() => {
+                let ts = Number(timer.s);
+                let tm = Number(timer.m);
+                let th = Number(timer.h);
+                if (ts > 0) {
+                    ts -= 1;
+                } else {
+                    if (tm > 0) {
+                        tm -= 1;
+                        ts = 59;
+                    } else {
+                        if (th > 0) {
+                            th -= 1;
+                            tm = 59;
+                            ts = 59;
+                        } else {
+                            setStart(false);
+                        }
+                    }
+                }
+                ts = NtS(ts);
+                tm = NtS(tm);
+                th = NtS(th);
+                setTimer({h: th, m: tm, s: ts})
+                
+            }, 1000)
+        }
     })
 
     useEffect(() => {
