@@ -23,7 +23,16 @@ function Timer() {
         s: '00'
     })
     const [start, setStart] = useState(false);
+    const [sw, setSw] = useState(
+        {
+            m: '00',
+            s: '00',
+            ms: '00'
+        }
+    );
+    const [sws, setSws] = useState(false);
     let id = -1;
+    let swid = -1;
 
     const back = () => {
         navigate('/');
@@ -78,7 +87,7 @@ function Timer() {
         switch (mod) {
             case 'Current Time':
                 return (
-                    <>
+                    <> 
                         <Box1>
                             <div>H</div>
                             <div>M</div>
@@ -112,7 +121,6 @@ function Timer() {
                             <div onClick={() => setStart(false)}>stop</div>
                             <div onClick={() => {
                                 clearTimeout(id);
-                                clearTimeout(id - 2);
                                 setTimer({h: '00', m: '00', s: '00'})
                                 setStart(false);
                             }}>reset</div>
@@ -122,13 +130,28 @@ function Timer() {
             case 'Stop Watch':
                 return (
                     <>
-                    <div>stop watch</div>
+                    <Box1>
+                        <div>{sw.m}</div>
+                        <div>:</div>
+                        <div>{sw.s}</div>
+                        <div>.</div>
+                        <div>{sw.ms}</div>
+                    </Box1>
+                    <Box1>
+                        <div onClick={() => setSws(true)}>start</div>
+                        <div onClick={() => setSws(false)}>stop</div>
+                        <div onClick={() => {
+                            setSws(false);
+                            clearTimeout(swid);
+                            setSw({m: '00', s: '00', ms: '00'});
+                        }}>reset</div>
+                    </Box1>
                     </>
                 )
         }
         return (
             <div>
-                nothing
+                error
             </div>
         )
     }
@@ -148,6 +171,9 @@ function Timer() {
         setTimeout(() => {
             setSec(sec + 1);
         }, 1000)
+    }, [sec]);
+    
+    useEffect(() => {
         if (start) {
             id = setTimeout(() => {
                 let ts = Number(timer.s);
@@ -176,11 +202,32 @@ function Timer() {
                 
             }, 1000)
         }
-    })
+    }, [timer.s, start]);
 
     useEffect(() => {
-
-    }, [])
+        if (sws) {
+            let swtm = Number(sw.m);
+            let swts = Number(sw.s);
+            let swtms = Number(sw.ms);
+            swid = setTimeout(() => {
+                if (swtms === 99) {
+                    swtms = 0;
+                    if (swts === 59) {
+                        swts = 0;
+                        swtm += 1;
+                    } else {
+                        swts += 1;
+                    }
+                } else {
+                    swtms += 1;
+                }
+                swtm = NtS(swtm);
+                swts = NtS(swts);
+                swtms = NtS(swtms);
+                setSw({m: swtm, s: swts, ms: swtms});
+            }, 5);
+        }
+    }, [sw.ms, sws]);
     return (
         <>
             <Wrap>
