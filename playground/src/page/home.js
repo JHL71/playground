@@ -18,6 +18,9 @@ function Home() {
                     <div onClick={() => move('/timer')}>
                         Timer
                     </div>
+                    <div onClick={() => move('/cal')}>
+                        Calculator
+                    </div>
                     <div>
                         Next Item(working)
                     </div>
