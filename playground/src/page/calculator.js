@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import styled from "styled-components";
 
 function Calculator () {
-  const [fomula, setFomula] = useState('')
+  const [fomula, setFomula] = useState('');
 
   return (
     <>
@@ -11,7 +11,7 @@ function Calculator () {
         <ScreenWrap>
           <Screen>
             <FomulaWrap>
-              <Fomula>
+              <Fomula> 
                 {fomula}
               </Fomula>
             </FomulaWrap>
@@ -22,10 +22,10 @@ function Calculator () {
         </ScreenWrap>
         <ButtonWrap>
           <LineWrap>
-            <Button>{'('}</Button>
-            <Button>{')'}</Button>
-            <Button> del </Button>
-            <Button> C </Button>
+            <Button onClick={() => setFomula(fomula + '(')}>{'('}</Button>
+            <Button onClick={() => setFomula(fomula + ')')}>{')'}</Button>
+            <Button onClick={() => setFomula(fomula.slice(0, -1))}> del </Button>
+            <Button onClick={() => setFomula('')}> C </Button>
           </LineWrap>
           <LineWrap>
             <Button onClick={() => setFomula(fomula + '1')}> 1 </Button>
@@ -43,13 +43,13 @@ function Calculator () {
             <Button onClick={() => setFomula(fomula + '7')}> 7 </Button>
             <Button onClick={() => setFomula(fomula + '8')}> 8 </Button>
             <Button onClick={() => setFomula(fomula + '9')}> 9 </Button>
-            <Button onClick={() => setFomula(fomula + '*')}>&times;</Button>
+            <Button onClick={() => setFomula(fomula + '×')}>&times;</Button>
           </LineWrap>
           <LineWrap>
-            <Button> 0 </Button>
-            <Button> . </Button>
+            <Button onClick={() => setFomula(fomula + '0')}> 0 </Button>
+            <Button onClick={() => setFomula(fomula + '.')}> . </Button>
             <Button> = </Button>
-            <Button onClick={() => setFomula(fomula + '/')}>&divide; </Button>
+            <Button onClick={() => setFomula(fomula + '÷')}>&divide; </Button>
           </LineWrap>
         </ButtonWrap>
       </CalculatorWrap>
