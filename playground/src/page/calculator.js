@@ -1,58 +1,99 @@
 import { useRef, useState } from "react";
 import styled from "styled-components";
 
+const toPostfix = (str) => {
+  const stack = [];
+  let top = -1;
+  const fomula = [];
+  const postfix = [];
+  const opPriority = {
+    '+' : 1,
+    '-' : 1,
+    '×' : 2,
+    '÷' : 2,
+  }
+  const regNum = /[\d.]/;
+  let num = '';
+  // string to array
+  for (let i = 0; i < str.length; i++) {
+    if (regNum.test(str[i])) {
+      num += str[i];
+    } else {
+      if (num !== '') fomula.push(num);
+      fomula.push(str[i]);
+      num = '';
+    }
+  }
+  fomula.push(num);
+  for (const char of fomula) {
+    if (regNum.test(char)) {
+      postfix.push(char);
+    } else {
+      
+    }
+  }
+}
+
+const calculate = (str) => {
+  const postfix = toPostfix(str);
+  const stack = [];
+}
+
+
 function Calculator () {
   const [fomula, setFomula] = useState('');
+
+  
 
   return (
     <>
       <Background>
-      <CalculatorWrap>
-        <ScreenWrap>
-          <Screen>
-            <FomulaWrap>
-              <Fomula> 
-                {fomula}
-              </Fomula>
-            </FomulaWrap>
-            <AnswerWrap>
-              <Answer></Answer>
-            </AnswerWrap>
-          </Screen>
-        </ScreenWrap>
-        <ButtonWrap>
-          <LineWrap>
-            <Button onClick={() => setFomula(fomula + '(')}>{'('}</Button>
-            <Button onClick={() => setFomula(fomula + ')')}>{')'}</Button>
-            <Button onClick={() => setFomula(fomula.slice(0, -1))}> del </Button>
-            <Button onClick={() => setFomula('')}> C </Button>
-          </LineWrap>
-          <LineWrap>
-            <Button onClick={() => setFomula(fomula + '1')}> 1 </Button>
-            <Button onClick={() => setFomula(fomula + '2')}> 2 </Button>
-            <Button onClick={() => setFomula(fomula + '3')}> 3 </Button>
-            <Button onClick={() => setFomula(fomula + '+')}> + </Button>
-          </LineWrap>
-          <LineWrap>
-            <Button onClick={() => setFomula(fomula + '4')}> 4 </Button>
-            <Button onClick={() => setFomula(fomula + '5')}> 5 </Button>
-            <Button onClick={() => setFomula(fomula + '6')}> 6 </Button>
-            <Button onClick={() => setFomula(fomula + '-')}> - </Button>
-          </LineWrap>
-          <LineWrap>
-            <Button onClick={() => setFomula(fomula + '7')}> 7 </Button>
-            <Button onClick={() => setFomula(fomula + '8')}> 8 </Button>
-            <Button onClick={() => setFomula(fomula + '9')}> 9 </Button>
-            <Button onClick={() => setFomula(fomula + '×')}>&times;</Button>
-          </LineWrap>
-          <LineWrap>
-            <Button onClick={() => setFomula(fomula + '0')}> 0 </Button>
-            <Button onClick={() => setFomula(fomula + '.')}> . </Button>
-            <Button> = </Button>
-            <Button onClick={() => setFomula(fomula + '÷')}>&divide; </Button>
-          </LineWrap>
-        </ButtonWrap>
-      </CalculatorWrap>
+        <CalculatorWrap>
+          <ScreenWrap>
+            <Screen>
+              <FomulaWrap>
+                <Fomula> 
+                  {fomula}
+                </Fomula>
+              </FomulaWrap>
+              <AnswerWrap>
+                <Answer></Answer>
+              </AnswerWrap>
+            </Screen>
+          </ScreenWrap>
+          <ButtonWrap>
+            <LineWrap>
+              <Button onClick={() => setFomula(fomula + '(')}>{'('}</Button>
+              <Button onClick={() => setFomula(fomula + ')')}>{')'}</Button>
+              <Button onClick={() => setFomula(fomula.slice(0, -1))}> del </Button>
+              <Button onClick={() => setFomula('')}> C </Button>
+            </LineWrap>
+            <LineWrap>
+              <Button onClick={() => setFomula(fomula + '1')}> 1 </Button>
+              <Button onClick={() => setFomula(fomula + '2')}> 2 </Button>
+              <Button onClick={() => setFomula(fomula + '3')}> 3 </Button>
+              <Button onClick={() => setFomula(fomula + '+')}> + </Button>
+            </LineWrap>
+            <LineWrap>
+              <Button onClick={() => setFomula(fomula + '4')}> 4 </Button>
+              <Button onClick={() => setFomula(fomula + '5')}> 5 </Button>
+              <Button onClick={() => setFomula(fomula + '6')}> 6 </Button>
+              <Button onClick={() => setFomula(fomula + '-')}> - </Button>
+            </LineWrap>
+            <LineWrap>
+              <Button onClick={() => setFomula(fomula + '7')}> 7 </Button>
+              <Button onClick={() => setFomula(fomula + '8')}> 8 </Button>
+              <Button onClick={() => setFomula(fomula + '9')}> 9 </Button>
+              <Button onClick={() => setFomula(fomula + '×')}>&times;</Button>
+            </LineWrap>
+            <LineWrap>
+              <Button onClick={() => setFomula(fomula + '0')}> 0 </Button>
+              <Button onClick={() => setFomula(fomula + '.')}> . </Button>
+              <Button onClick={() => calculate(fomula)}> = </Button>
+              <Button onClick={() => setFomula(fomula + '÷')}>&divide; </Button>
+            </LineWrap>
+          </ButtonWrap>
+        </CalculatorWrap>
       </Background>
     </>
   )
