@@ -6,15 +6,16 @@ const toPostfix = (str) => {
   let top = -1;
   const fomula = [];
   const postfix = [];
-  const opPriority = {
+  const priority = {
     '+' : 1,
     '-' : 1,
     '×' : 2,
     '÷' : 2,
+    '(' : 0
   }
   const regNum = /[\d.]/;
   let num = '';
-  // string to array
+
   for (let i = 0; i < str.length; i++) {
     if (regNum.test(str[i])) {
       num += str[i];
@@ -24,25 +25,67 @@ const toPostfix = (str) => {
       num = '';
     }
   }
-  fomula.push(num);
+  if (num !== '') fomula.push(num);
+
   for (const char of fomula) {
     if (regNum.test(char)) {
-      postfix.push(char);
+      postfix.push(char - 0);
     } else {
-      
+      if (char === ')') {
+        while (stack[top] !== '(') {
+          postfix.push(stack.pop());
+          top--;
+        }
+        stack.pop();
+        top--;
+      } else if (char === '(') {
+        stack.push(char);
+        top++;
+      } else {
+        while (priority[stack[top]] >= priority[char] && top > -1) {
+          postfix.push(stack.pop());
+          top--;
+        }
+        stack.push(char);
+        top++;
+      }
     }
   }
+  while (stack.length > 0) {
+    postfix.push(stack.pop());
+  }
+  return postfix;
 }
 
 const calculate = (str) => {
   const postfix = toPostfix(str);
   const stack = [];
+  let num1, num2
+  for (let i = 0; i < postfix.length; i++) {
+    if (typeof(postfix[i]) === 'number') {
+      stack.push(postfix[i]);
+    } else {
+      num2 = stack.pop();
+      num1 = stack.pop();
+      switch (postfix[i]) {
+        case '+': stack.push(num1 + num2);
+         break;
+        case '-': stack.push(num1 - num2);
+         break;
+        case '×': stack.push(num1 * num2);
+         break;
+        case '÷': stack.push(num1 / num2);
+         break;
+      }
+    }
+  }
+  return stack[0];
 }
 
 
 function Calculator () {
   const [fomula, setFomula] = useState('');
-
+  const [answer, setAnswer] = useState('');
   
 
   return (
@@ -57,7 +100,9 @@ function Calculator () {
                 </Fomula>
               </FomulaWrap>
               <AnswerWrap>
-                <Answer></Answer>
+                <Answer>
+                  {answer}
+                </Answer>
               </AnswerWrap>
             </Screen>
           </ScreenWrap>
@@ -89,7 +134,9 @@ function Calculator () {
             <LineWrap>
               <Button onClick={() => setFomula(fomula + '0')}> 0 </Button>
               <Button onClick={() => setFomula(fomula + '.')}> . </Button>
-              <Button onClick={() => calculate(fomula)}> = </Button>
+              <Button onClick={() => {
+                setAnswer(calculate(fomula));
+              }}> = </Button>
               <Button onClick={() => setFomula(fomula + '÷')}>&divide; </Button>
             </LineWrap>
           </ButtonWrap>
