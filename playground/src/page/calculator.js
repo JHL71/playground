@@ -27,6 +27,22 @@ const toPostfix = (str) => {
   }
   if (num !== '') fomula.push(num);
 
+  let check = 0;
+  for (let i = 0; i < fomula.length; i++) {
+    switch (fomula[i]) {
+      case '(':
+        check++;
+        break;
+      case ')':
+        check--;
+        break;
+      default:
+        break;
+    }
+    if (check < 0) return 'Invalid';
+  }
+  if (check !== 0) return 'Invalid';
+
   for (const char of fomula) {
     if (regNum.test(char)) {
       postfix.push(char - 0);
@@ -59,6 +75,7 @@ const toPostfix = (str) => {
 
 const calculate = (str) => {
   const postfix = toPostfix(str);
+  if (postfix === 'Invalid') return 'Invalid Fomula'
   const stack = [];
   let num1, num2
   for (let i = 0; i < postfix.length; i++) {
@@ -108,36 +125,60 @@ function Calculator () {
           </ScreenWrap>
           <ButtonWrap>
             <LineWrap>
-              <Button onClick={() => setFomula(fomula + '(')}>{'('}</Button>
-              <Button onClick={() => setFomula(fomula + ')')}>{')'}</Button>
+              <Button onClick={() => {
+                if (/[-×÷+]/.test(fomula[fomula.length - 1]))
+                setFomula(fomula + '(')
+              }}>{'('}</Button>
+              <Button onClick={() => {
+                if (/\d/.test(fomula[fomula.length - 1]))
+                  setFomula(fomula + ')');
+              }}>{')'}</Button>
               <Button onClick={() => setFomula(fomula.slice(0, -1))}> del </Button>
-              <Button onClick={() => setFomula('')}> C </Button>
+              <Button onClick={() => {
+                setFomula('');
+                setAnswer('');
+              }}> C </Button>
             </LineWrap>
             <LineWrap>
               <Button onClick={() => setFomula(fomula + '1')}> 1 </Button>
               <Button onClick={() => setFomula(fomula + '2')}> 2 </Button>
               <Button onClick={() => setFomula(fomula + '3')}> 3 </Button>
-              <Button onClick={() => setFomula(fomula + '+')}> + </Button>
+              <OpButton onClick={() => {
+                if (/[^-^×^÷^+.]/.test(fomula[fomula.length - 1]))
+                  setFomula(fomula + '+');
+              }}> + </OpButton>
             </LineWrap>
             <LineWrap>
               <Button onClick={() => setFomula(fomula + '4')}> 4 </Button>
               <Button onClick={() => setFomula(fomula + '5')}> 5 </Button>
               <Button onClick={() => setFomula(fomula + '6')}> 6 </Button>
-              <Button onClick={() => setFomula(fomula + '-')}> - </Button>
+              <OpButton onClick={() => {
+                if (/[^-^×^÷^+.]/.test(fomula[fomula.length - 1]))
+                  setFomula(fomula + '-');
+              }}> - </OpButton>
             </LineWrap>
             <LineWrap>
               <Button onClick={() => setFomula(fomula + '7')}> 7 </Button>
               <Button onClick={() => setFomula(fomula + '8')}> 8 </Button>
               <Button onClick={() => setFomula(fomula + '9')}> 9 </Button>
-              <Button onClick={() => setFomula(fomula + '×')}>&times;</Button>
+              <OpButton onClick={() => {
+                if (/[^-^×^÷^+.]/.test(fomula[fomula.length - 1]))
+                  setFomula(fomula + '×');
+              }}> × </OpButton>
             </LineWrap>
             <LineWrap>
               <Button onClick={() => setFomula(fomula + '0')}> 0 </Button>
-              <Button onClick={() => setFomula(fomula + '.')}> . </Button>
-              <Button onClick={() => {
+              <OpButton onClick={() => {
+                if (/[0-9]/.test(fomula[fomula.length - 1]))
+                  setFomula(fomula + '.');
+              }}> . </OpButton>
+              <OpButton onClick={() => {
                 setAnswer(calculate(fomula));
-              }}> = </Button>
-              <Button onClick={() => setFomula(fomula + '÷')}>&divide; </Button>
+              }}> = </OpButton>
+              <OpButton onClick={() => {
+                if (/[^-^×^÷^+.]/.test(fomula[fomula.length - 1]))
+                  setFomula(fomula + '÷');
+              }}> ÷ </OpButton>
             </LineWrap>
           </ButtonWrap>
         </CalculatorWrap>
@@ -221,6 +262,9 @@ const Answer = styled.div`
   height: 30px;
   border: solid green 1px;
   margin: 3px;
+  display: flex;
+  justify-content:center;
+  align-items: center;
 `
 
 const ButtonWrap = styled.div`
@@ -251,6 +295,27 @@ const Button = styled.div`
   align-items: center;
   font-size: 15px;
   font-weight: bold;
+  cursor: pointer;
+  :hover {
+    background-color: blue;
+    color: white;
+  }
+`
+
+const OpButton = styled.div`
+  width: 50px;
+  height: 50px;
+  border: solid yellow 1px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+  font-weight: bold;
+  cursor: pointer;
+  :hover {
+    background-color: blue;
+    color: white;
+  }
 `
 
 
