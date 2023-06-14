@@ -117,7 +117,10 @@ function Calculator () {
                 </Fomula>
               </FomulaWrap>
               <AnswerWrap>
-                <Answer>
+                <Answer onClick={() => {
+                  setFomula(answer)
+                  setAnswer('');
+                }}>
                   {answer}
                 </Answer>
               </AnswerWrap>
@@ -205,21 +208,22 @@ const CalculatorWrap = styled.div`
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
+  border-radius: 20px;
 `
 
 const ScreenWrap = styled.div`
   width: 360px;
   height: 160px;
-  border: solid black 1px;
+  background-color: #D4BFF9;
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 10px;
 `
 
 const Screen = styled.div`
   width: 340px;
   height: 140px;
-  background: #D4BFF9;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -229,17 +233,17 @@ const Screen = styled.div`
 const FomulaWrap = styled.div`
   width: 300px;
   height: 80px;
-  border: solid white 1px;
+  background-color: rgb(0, 160, 0);
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 5px;
 `
 
 const Fomula = styled.div`
   box-sizing: border-box;
   width: 280px;
   height: 60px;
-  background-color: green;
   color: white;
   padding: 0px 15px;
   display: flex;
@@ -250,7 +254,6 @@ const Fomula = styled.div`
 const AnswerWrap = styled.div`
   width: 300px;
   height: 40px;
-  border: solid black 1px;
   display: flex;
   justify-content: right;
   align-items: center;
@@ -260,27 +263,33 @@ const AnswerWrap = styled.div`
 const Answer = styled.div`
   width: 150px;
   height: 30px;
-  border: solid green 1px;
+  background-color: rgb(222, 222, 222);
   margin: 3px;
   display: flex;
   justify-content:center;
   align-items: center;
+  border-radius: 5px;
+  :hover {
+    cursor: pointer;
+    background-color: blue;
+    color: white;
+  }
 `
 
 const ButtonWrap = styled.div`
   width: 360px;
   height: 400px;
-  border: solid black 1px;
+  background-color: #D4BFF9;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
+  border-radius: 10px;
 `
 
 const LineWrap = styled.div`
   width: 300px;
   height: 60px;
-  border: solid red 1px;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
@@ -295,8 +304,10 @@ const Button = styled.div`
   align-items: center;
   font-size: 15px;
   font-weight: bold;
-  cursor: pointer;
+  background-color: rgb(222, 222, 222);
+  border-radius: 5px;
   :hover {
+    cursor: pointer;
     background-color: blue;
     color: white;
   }
@@ -311,8 +322,10 @@ const OpButton = styled.div`
   align-items: center;
   font-size: 25px;
   font-weight: bold;
-  cursor: pointer;
+  background-color: rgb(222, 222, 222);
+  border-radius: 5px;
   :hover {
+    cursor: pointer;
     background-color: blue;
     color: white;
   }
