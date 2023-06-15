@@ -21,6 +21,9 @@ function Home() {
                     <div onClick={() => move('/cal')}>
                         Calculator
                     </div>
+                    <div onClick={() => move('/cp')}>
+                        CPList
+                    </div>
                     <div>
                         Next Item(working)
                     </div>

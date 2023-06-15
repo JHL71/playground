@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
-import { Timer, Home, Calculator } from './page';
+import { Timer, Home, Calculator, CPList } from './page';
 
 function App() {
   return (
@@ -11,6 +11,7 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/timer' element={<Timer />} />
           <Route path='/cal' element={<Calculator />} />
+          <Route path='/cp' element={<CPList />} />
           <Route path='/*' element={<Navigate to='/' />} />
         </Routes>
       </Router>
