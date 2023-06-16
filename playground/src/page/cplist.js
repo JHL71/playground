@@ -1,19 +1,41 @@
+import { useState } from "react";
 import styled from "styled-components";
+import { Modal, Toggle, Notice } from "../components";
 
 const CPList = () => {
+  const [CP, setCP] = useState('');
+
+  const display = (str) => {
+    switch (str) {
+      case 'Modal':
+        return (
+          <Modal setCP={setCP}/>
+        )
+      case 'Toggle':
+        return (
+          <Toggle />
+        )
+      case 'Notice':
+        return (
+          <Notice />
+        )
+      default:
+        break;
+    }
+  }
 
   return (
     <>
       <Back>
         <Sidebar>
           <List>
-            <Button>Modal</Button>
-            <Button>Toggle</Button>
-            <Button>Notice</Button>
+            <Button onClick={() => setCP('Modal')}>Modal</Button>
+            <Button onClick={() => setCP('Toggle')}>Toggle</Button>
+            <Button onClick={() => setCP('Notice')}>Notice</Button>
           </List>
         </Sidebar>
         <Main>
-
+          {display(CP)}
         </Main>
       </Back>
     </>
