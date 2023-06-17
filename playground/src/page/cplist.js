@@ -17,7 +17,7 @@ const CPList = () => {
         )
       case 'Notice':
         return (
-          <Notice />
+          <Notice/>
         )
       default:
         break;
@@ -51,7 +51,6 @@ const Back = styled.div`
 const Sidebar = styled.div`
   width: 20%;
   height: 100%;
-  border: solid red 3px;
   display: flex;
   justify-content: center;
   align-items: left;
@@ -60,7 +59,6 @@ const Sidebar = styled.div`
 const Main = styled.div`
   width: 80%;
   height: 100%;
-  border: solid blue 3px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -85,7 +83,7 @@ const Button = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgb(222, 222, 222);
+  background: rgb(222, 222, 222);
   :hover {
     cursor: pointer;
     background-color: black;
