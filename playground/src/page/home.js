@@ -11,22 +11,22 @@ function Home() {
         <>
             <Wrap>
                 <Title>home</Title>
-                <div>
-                    &nbsp;
-                </div>
                 <ConBox>
-                    <div onClick={() => move('/timer')}>
+                    <Card onClick={() => move('/timer')}>
                         Timer
-                    </div>
-                    <div onClick={() => move('/cal')}>
+                    </Card>
+                    <Card onClick={() => move('/cal')}>
                         Calculator
-                    </div>
-                    <div onClick={() => move('/cp')}>
+                    </Card>
+                    <Card onClick={() => move('/cp')}>
                         CPList
-                    </div>
-                    <div>
+                    </Card>
+                    <Card>
                         Next Item(working)
-                    </div>
+                    </Card>
+                    <Card>
+
+                    </Card>
                 </ConBox>
             </Wrap>
         </>
@@ -49,10 +49,29 @@ const Title = styled.div`
 `
 
 const ConBox = styled.div`
-    width: 100%;
+    width: 800px;
     height: 400px;
     display: flex;
-    justify-content: space-evenly;
+    background-color: #fefefe;
+    border-radius: 20px;
+    overflow: scroll;
+`
+
+const Card = styled.div`
+    margin: auto 20px auto 20px;
+    width: 200px;
+    height: 300px;
+    background-color: greenyellow;
+    display: flex;
+    justify-content: center;
     align-items: center;
+    border-radius: 10px;
+    flex-shrink: 0;
+    :hover {
+        cursor: pointer;
+        transform: rotateY(360deg);
+        transition: all 1s ease-out;
+        background-color: yellowgreen;
+    }
 `
 export default Home;
