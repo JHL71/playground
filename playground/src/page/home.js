@@ -21,6 +21,9 @@ function Home() {
                     <Card onClick={() => move('/cp')}>
                         CPList
                     </Card>
+                    <Card onClick={() => move('/canvas')}>
+                        Canvas
+                    </Card>
                     <Card>
                         Next Item(working)
                     </Card>
