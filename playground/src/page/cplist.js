@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { Modal, Toggle, Notice } from "../components";
+import { Modal, Toggle, Notice, ScrollPicker } from "../components";
 
 const CPList = () => {
   const [CP, setCP] = useState('');
@@ -17,7 +17,11 @@ const CPList = () => {
         )
       case 'Notice':
         return (
-          <Notice/>
+          <Notice />
+        )
+      case 'ScrollPicker':
+        return (
+          <ScrollPicker />
         )
       default:
         break;
@@ -32,6 +36,7 @@ const CPList = () => {
             <Button onClick={() => setCP('Modal')}>Modal</Button>
             <Button onClick={() => setCP('Toggle')}>Toggle</Button>
             <Button onClick={() => setCP('Notice')}>Notice</Button>
+            <Button onClick={() => setCP('ScrollPicker')}>ScrollPicker</Button>
           </List>
         </Sidebar>
         <Main>
