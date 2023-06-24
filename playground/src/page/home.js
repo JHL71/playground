@@ -73,7 +73,7 @@ const Card = styled.div`
     :hover {
         cursor: pointer;
         transform: rotateY(360deg);
-        transition: all 1s ease-out;
+        transition: all 0.5s ease-out;
         background-color: yellowgreen;
     }
 `
