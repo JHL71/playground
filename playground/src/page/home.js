@@ -72,8 +72,8 @@ const Card = styled.div`
     flex-shrink: 0;
     :hover {
         cursor: pointer;
-        transform: rotateY(360deg);
-        transition: all 0.5s ease-out;
+        transform: scale(1.1, 1.1);
+        transition: all 1s ease-out;
         background-color: yellowgreen;
     }
 `
