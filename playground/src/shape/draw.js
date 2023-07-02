@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import styled from "styled-components";
 
-const Mouse = () => {
+const Draw = () => {
   const canvasRef = useRef(null);
   const [mode, setMode] = useState('draw');
   const [c, setC] = useState('#000000');
@@ -134,4 +134,4 @@ const Canvas = styled.canvas`
 `
 
 
-export default Mouse;
+export default Draw;

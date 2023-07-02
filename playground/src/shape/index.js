@@ -1,5 +1,7 @@
 import Circle from "./circle";
 import Triangle from "./triangle";
-import Mouse from "./mouse";
+import Draw from "./draw";
+import ClickAim from "./click-aim";
 
-export { Circle, Triangle, Mouse };
+
+export { Circle, Triangle, Draw, ClickAim };

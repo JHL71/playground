@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Circle, Mouse, Triangle } from "../shape";
+import { Circle, ClickAim, Draw, Triangle } from "../shape";
 
 const Canvas = () => {
   const [shape, setShape] = useState('');
@@ -15,9 +15,13 @@ const Canvas = () => {
         return (
           <Triangle />
         )
-      case 'mouse':
+      case 'draw':
         return (
-          <Mouse />
+          <Draw />
+        )
+      case 'clickAim':
+        return (
+          <ClickAim />
         )
       default:
         break;
@@ -34,7 +38,8 @@ const Canvas = () => {
         <Select>
           <List onClick={() => setShape('circle')}>Circle</List>
           <List onClick={() => setShape('triangle')}>Triangle</List>
-          <List onClick={() => setShape('mouse')}>Mouse</List>
+          <List onClick={() => setShape('draw')}>Draw</List>
+          <List onClick={() => setShape('clickAim')}>ClickAim</List>
         </Select>
         <Show>
           {drawShape(shape)}
