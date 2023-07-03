@@ -68,7 +68,6 @@ const Select = styled.div`
   flex-direction: column;
   justify-content: right;
   align-items: center;
-
 `
 
 const List = styled.div`
