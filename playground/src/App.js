@@ -3,6 +3,8 @@ import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom
 import { Timer, Home, Calculator, CPList, Canvas } from './page';
 
 function App() {
+
+  console.log('test');
   return (
     <>
       <Header></Header>
