@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable default-case */
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -175,6 +177,7 @@ function Timer() {
     
     useEffect(() => {
         if (start) {
+            // eslint-disable-next-line react-hooks/exhaustive-deps
             id = setTimeout(() => {
                 let ts = Number(timer.s);
                 let tm = Number(timer.m);

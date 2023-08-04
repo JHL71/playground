@@ -24,11 +24,11 @@ function Home() {
                     <Card onClick={() => move('/canvas')}>
                         Canvas
                     </Card>
-                    <Card>
-                        Next Item(working)
+                    <Card onClick={() => move('/calendar')}>
+                        Calendar
                     </Card>
                     <Card>
-
+                        Next Item(working)
                     </Card>
                 </ConBox>
             </Wrap>
