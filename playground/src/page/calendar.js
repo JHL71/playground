@@ -3,16 +3,38 @@ import styled from "styled-components";
 
 
 function Calendar() {
-  const [date, setDate] = useState(new Date());
-  const [days, setDays] = useState();
-
+  const date = new Date();
+  let lp = 0;
+  if (date.getFullYear() % 4 === 0) lp = 1;
+  const monthLength = [31, 28 + lp, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  let cdate = new Date(`${date.getFullYear()}-0${date.getMonth() + 1}-01`);
+  let first = cdate.getDay();
+  let cm = cdate.getMonth();
+  let arr = Array.from({length: monthLength[cm]}, (_, i) => i + 1);
+  let dummy1 = Array.from({length: first}, (_, i) => monthLength[cm - 1] - first + i + 1);
+  let dummy2 = Array.from({length: 7 - (first + monthLength[cm]) % 7}, (_, i) => i + 1);
+  let temp = dummy1.concat(arr, dummy2);
+  console.log(temp.length);
+  let dayArr = [];
+  for (let i = 0; i < Math.floor(temp.length / 7); i++) {
+    let week = [];
+    for (let j = 0; j < 7; j++) {
+      week.push(temp[i * 7 + j]);
+    }
+    dayArr.push(week);
+  }
+  console.log(dayArr);
+  const [year, setYear] = useState(date.getFullYear());
+  const [month, setMonth] = useState(date.getMonth());
+  const [days, setDays] = useState(dayArr);
+  
   return (
     <>
       <Section>
         <MonthWrap>
           <Ul>
             <li>&lt;</li>
-            <li>2023.{date.getMonth() + 1}</li>
+            <li>{year}.{month + 1}</li>
             <li>&gt;</li>
           </Ul>
         </MonthWrap>
@@ -29,60 +51,20 @@ function Calendar() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>25</td>
-              <td>26</td>
-              <td>27</td>
-              <td>28</td>
-              <td>29</td>
-              <td>30</td>
-              <td>1</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>3</td>
-              <td>4</td>
-              <td>5</td>
-              <td>6</td>
-              <td>7</td>
-              <td>8</td>
-            </tr>
-            <tr>
-              <td>9</td>
-              <td>10</td>
-              <td>11</td>
-              <td>12</td>
-              <td>13</td>
-              <td>14</td>
-              <td>15</td>
-            </tr>
-            <tr>
-              <td>16</td>
-              <td>17</td>
-              <td>18</td>
-              <td>19</td>
-              <td>20</td>
-              <td>21</td>
-              <td>22</td>
-            </tr>
-            <tr>
-              <td>23</td>
-              <td>24</td>
-              <td>25</td>
-              <td>26</td>
-              <td>27</td>
-              <td>28</td>
-              <td>29</td>
-            </tr>
-            <tr>
-              <td>30</td>
-              <td>31</td>
-              <td>1</td>
-              <td>2</td>
-              <td>3</td>
-              <td>4</td>
-              <td>5</td>
-            </tr>
+            {
+              days.map((el, i) => {
+                return (
+                  <tr key={i}>
+                    {el.map((num, idx) => {
+                      return (
+                        <td key={idx*10}>{num}</td>
+                      )
+                    })
+                    }
+                  </tr>
+                )
+              })
+            }
           </tbody>
         </Table>
       </Section>
