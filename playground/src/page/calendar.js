@@ -1,41 +1,87 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 
 function Calendar() {
   const date = new Date();
-  let lp = 0;
-  if (date.getFullYear() % 4 === 0) lp = 1;
-  const monthLength = [31, 28 + lp, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-  let cdate = new Date(`${date.getFullYear()}-0${date.getMonth() + 1}-01`);
-  let first = cdate.getDay();
-  let cm = cdate.getMonth();
-  let arr = Array.from({length: monthLength[cm]}, (_, i) => i + 1);
-  let dummy1 = Array.from({length: first}, (_, i) => monthLength[cm - 1] - first + i + 1);
-  let dummy2 = Array.from({length: 7 - (first + monthLength[cm]) % 7}, (_, i) => i + 1);
-  let temp = dummy1.concat(arr, dummy2);
-  console.log(temp.length);
-  let dayArr = [];
-  for (let i = 0; i < Math.floor(temp.length / 7); i++) {
-    let week = [];
-    for (let j = 0; j < 7; j++) {
-      week.push(temp[i * 7 + j]);
-    }
-    dayArr.push(week);
-  }
-  console.log(dayArr);
+  const monthLength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  const ly = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  
   const [year, setYear] = useState(date.getFullYear());
   const [month, setMonth] = useState(date.getMonth());
-  const [days, setDays] = useState(dayArr);
+
+  const makeDays = (date) => {
+    console.log(0, date);
+    console.log('x', date.getDay());
+    let firstDay = (7 - (date.getDate() % 7 - 1) + date.getDay()) % 7;
+    console.log('y', firstDay);
+    let lenp, lenc
+    if (date.getFullYear() % 4 === 0) {
+      lenp = ly[(date.getMonth() + 11) % 12];
+      lenc = ly[date.getMonth()];
+      // lenn = ly[(date.getMonth() + 1) % 12];
+    } else {
+      lenp = monthLength[(date.getMonth() + 11) % 12];
+      lenc = monthLength[date.getMonth()];
+      // lenn = monthLength[(date.getMonth() + 1) % 12];
+    }
+    let prev = Array.from({length: firstDay}, (_, i) => lenp - firstDay + i + 1);
+    let cur = Array.from({length: lenc}, (_, i) => i + 1);
+    let next = Array.from({length: (7 - (firstDay + lenc) % 7) % 7}, (_, i) => i + 1);
+    let temp = [...prev, ...cur, ...next];
+    let result = [];
+    console.log(date);
+    for (let i = 0; i < temp.length / 7; i++) {
+      result.push([...temp.slice(i*7, i*7 + 7)]);
+    }
+    return result;
+  }
   
+
+  const [days, setDays] = useState(makeDays(date));
+
+  const increaseMonth = () => {
+    let ny = year;
+    let nm = month;
+    if (month < 11) {
+      nm += 1;
+    } else {
+      nm = 0;
+      ny +=1 ;
+    }
+    setMonth(nm);
+    if (ny !== year) setYear(ny);
+    let temp = new Date(`${ny}-${nm + 1}-01`);
+    setDays(makeDays(temp));
+  }
+
+  const decreaseMonth = () => {
+    let nm = month;
+    let ny = year;
+    if (month > 0) {
+      nm -= 1;
+    } else {
+      nm = 11;
+      ny -= 1;
+    }
+    setMonth(nm);
+    if (ny !== year) setYear(ny);
+    let temp = new Date(`${ny}-${nm + 1}-01`);
+    setDays(makeDays(temp));
+  }
+
+  useEffect(() => {
+    console.log(1);
+  })
+
   return (
     <>
       <Section>
         <MonthWrap>
           <Ul>
-            <li>&lt;</li>
-            <li>{year}.{month + 1}</li>
-            <li>&gt;</li>
+            <Li className='button' onClick={decreaseMonth}>&lt;</Li>
+            <Li>{year}.{month + 1}</Li>
+            <Li className='button' onClick={increaseMonth}>&gt;</Li>
           </Ul>
         </MonthWrap>
         <Table>
@@ -55,9 +101,11 @@ function Calendar() {
               days.map((el, i) => {
                 return (
                   <tr key={i}>
-                    {el.map((num, idx) => {
+                    {el.map((num, j) => {
                       return (
-                        <td key={idx*10}>{num}</td>
+                        Math.abs(i * 7 + j - num) < 10 
+                        ? <Td key={j*10}>{num}</Td>
+                        : <Td className='pon' key={j*10}>{num}</Td>
                       )
                     })
                     }
@@ -81,7 +129,7 @@ const Section = styled.div`
 `
 
 const MonthWrap = styled.div`
-  height: 50px;
+  height: 100px;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -95,10 +143,30 @@ const Ul = styled.ul`
   justify-content: center;
 `
 
+const Li = styled.li`
+  width: 100px;
+  height: 60px;
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: default;
+  &.button {
+    cursor: pointer;
+  }
+`
+
 
 const Table = styled.table`
   width: 100%;
   height: 80vh;
+`
+
+const Td = styled.td`
+  color: black;
+  &.pon {
+    color: gray;
+  }
 `
 
 export default Calendar;
