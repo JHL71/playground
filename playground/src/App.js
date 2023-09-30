@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
-import { Timer, Home, Calculator, CPList, Canvas, Calendar } from './page';
+import { Timer, Home, Calculator, CPList, Canvas, Calendar, Slide } from './page';
 
 function App() {
 
@@ -16,6 +16,7 @@ function App() {
           <Route path='/cp' element={<CPList />} />
           <Route path='/canvas' element={<Canvas />} />
           <Route path='/calendar' element={<Calendar />} />
+          <Route path='/slide' element={<Slide />} />
           <Route path='/*' element={<Navigate to='/' />} />
         </Routes>
       </Router>

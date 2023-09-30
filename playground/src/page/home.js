@@ -27,6 +27,9 @@ function Home() {
                     <Card onClick={() => move('/calendar')}>
                         Calendar
                     </Card>
+                    <Card onClick={() => move('/slide')}>
+                        Slide
+                    </Card>
                     <Card>
                         Next Item(working)
                     </Card>
